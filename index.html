@@ -1,469 +1,696 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的十大價值觀探索</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>我的十大價值觀探索</title>
 
-    <!-- 基本資訊 -->
-    <meta name="version" content="2.0">
-    <meta name="author" content="莊士勇 Steven">
-    <meta name="description" content="本測驗幫助使用者探索自己的價值觀，並根據結果提供個性化的職業建議和生涯發展方向。">
-    <meta name="keywords" content="價值觀排序, 職涯發展, 自我探索, 個人發展, 職業規劃">
+<!-- 基本資訊 -->
+<meta name="version" content="3.0">
+<meta name="author" content="莊士勇 Steven">
+<meta name="description" content="從 54 張價值觀探索卡中，選出現在的你當下最有感覺的價值觀，並排出順序。">
+<meta name="keywords" content="價值觀排序, 價值觀探索卡, 職涯發展, 自我探索, 生涯規劃">
 
-    <!-- 社群分享設定 -->
-    <meta property="og:title" content="我的十大價值觀探索">
-    <meta property="og:description" content="探索您的十大價值觀，發現個人優勢並獲得職業發展與生涯規劃的建議。">
-    <meta property="og:image" content="value_og_image.png">
-    <meta property="og:type" content="website">
-    <meta property="og:updated_time" content="2025-05-12T00:00:00Z">
+<!-- 社群分享設定 -->
+<meta property="og:title" content="我的十大價值觀探索">
+<meta property="og:description" content="選出現在的你當下最有感覺的價值觀，並排出順序。">
+<meta property="og:type" content="website">
 
-    <!-- 設置網站的縮略圖小草  -->
-    <link rel="icon" href="10value.ico" type="image/x-icon" />
+<!-- 網站小圖示 -->
+<link rel="icon" href="10value.ico" type="image/x-icon">
 
-    <!-- 釋出日期 -->
-    <meta property="article:published_time" content="2025-02-25T00:00:00Z">
-    <meta property="article:modified_time" content="2025-05-12T00:00:00Z">
-
-    <style>
-        /* 設定全域樣式，包含背景顏色、文字顏色等 */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f8f9fa;
-            color: #495057;
-        }
-
-        /* h1標題樣式 */
-        h1 {
-            font-size: 30px;  /* 設定字型大小 */
-            font-weight: bold; /* 強調主標題 */
-            text-align: center;/* 文字置中 */
-            line-height: 1.5; /* 調小行距預設1.5，讓標題與說明文字更貼近 */
-            margin-bottom: 3px; /* 減少標題與下一行的距離 */
-            margin-top: 0px; /* 減少與上一行的距離 3px */
-            color: #343a40; /* 字型 深灰色 */
-        }
-
-        /* h2標題樣式 */
-        h2 {
-            font-size: 22px;  /* 設定字型大小 */
-            font-weight: normal; /* 副標題常規字重 */
-            text-align: center;/* 文字置中 */
-            line-height: 1.5; /* 調小行距預設1.5，讓標題與說明文字更貼近 */
-            margin-bottom: 3px; /* 減少標題與下一行的距離 */
-            margin-top: 3px; /* 減少與上一行的距離 */
-            color: #495057; /* 字型 稍淺的灰色 */
-        }
-
-
-        /* h3 標題樣式 */
-        h3 {
-            font-size: 20px;   /* 設定字型大小 */
-            font-weight: normal; /* 副標題常規字重 */
-            color: #007bff;    /* 字型 深藍色 */
-            text-align: center;/* 文字置中 */
-            line-height: 1.0; /* 調小行距預設1.5，讓標題與說明文字更貼近 */
-            margin-bottom: 3px; /* 減少標題與下一行的距離 */
-            margin-top: 3px; /* 減少與上一行的距離 */
-            margin-bottom: 0px; /* 設定底部間距 15px*/
-        }
-
-        /* 卡片容器與選擇區的佈局設定 */
-        .card-container, .selected-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* 使卡片置中 */
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* 單張卡片的樣式 */
-        .card {
-            width: 140px;  /* 增加寬度 */
-            height: 60px; /* 增加高度 */
-            font-size: 22px; /* 提升字體大小 */
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background-color: #fff;
-        }
-
-        /* 被選中的卡片樣式 */
-        .selected-card {
-            background-color: #f0f0f0;
-        }
-
-        /* 按鈕區塊 */
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        /* 按鈕基本樣式 */
-        .button {
-            padding: 10px 20px; /*設定內邊距 上下px 左右px*/
-            font-size: 20px; /*字體大小*/
-            cursor: pointer;
-        }
-
-        /* 已選擇x張 與 已排序x張 的字型大小 */
-        #selectedCount {
-            font-size: 18px; /* 設置已選擇X張的字型大小 */
-        }
-
-        #sortedCount {
-            font-size: 18px; /* 設置已排序X張的字型大小 */
-        }
-
-
-        /* 隱藏元素的樣式 */
-        .hidden {
-            display: none;
-        }
-        /* 下方沒選牌完成選擇出現您還沒選擇牌卡喔！的文字設定 */
-        #noSelectionMessage {
-            color: red;
-            font-size: 22px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        /* 分隔線樣式 */
-        .divider {
-            border-top: 2px solid #000;
-            margin: 20px 0;
-            width: 100%;
-        }
-
-        /* 頁尾樣式 */
-        .footer {
-            width: 100%;
-            text-align: center;
-            background-color: #f8f9fa; /* 淺灰背景 */
-            padding: 10px 0;
-            font-size: 18px;
-            color: #6c757d; /* 灰色文字 */
-            margin-top: 20px; /* 給上方留點間距，避免和內容過於擁擠 */
-        }
-
-/* 返回頂部浮動按鈕的樣式 */
-.scroll-to-top-btn {
-    position: fixed;        /* 固定在頁面上 */
-    bottom: 55px;           /* 距離頁面底部 20px */
-    right: 5px;            /* 距離頁面右邊 20px */
-    background-color: rgba(255, 255, 255, 0.7); /* 半透明白色背景 */
-    color: black;           /* 初始文字顏色為黑色 */
-    border: none;           /* 去除邊框 */
-    font-size: 40px;        /* 設定符號大小 */
-    display: none;          /* 初始隱藏 */
-    cursor: pointer;       /* 滑鼠樣式變為手型 */
-    z-index: 1000;          /* 保證按鈕顯示在其他元素之上 */
-    opacity: 0.8;           /* 初始透明度 */
-    transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* 添加過渡效果 */
-    text-align: center;     /* 使文字居中 */
-    line-height: 60px;      /* 使箭頭符號垂直居中 */
-    width: 70px;            /* 設定按鈕的寬度 */
-    height: 70px;           /* 設定按鈕的高度 */
-    border-radius: 50%;     /* 保持圓形 */
+<style>
+/* ===== 共用色彩與字體（之後四大測驗統一使用） ===== */
+:root {
+  --bg: #f6f5f2;          /* 頁面底色：溫和米白 */
+  --surface: #ffffff;     /* 卡片、區塊底色 */
+  --text: #2b2b2b;        /* 主要文字 */
+  --muted: #6b6b6b;       /* 次要文字 */
+  --line: #e2e0da;        /* 分隔線、外框 */
+  --brand: #35628E;       /* 主色：按鈕 */
+  --brand-dark: #284c6e;
+  --radius: 14px;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 }
 
-/* 設置按鈕顯示的符號 */
-.scroll-to-top-btn::before {
-    content: '⏫';           /* 設置箭頭符號 */
-    font-size: 40px;        /* 設定符號大小 */
-    color: black;           /* 設置符號顏色 */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.5;
 }
-/* 返回頂部浮動按鈕的樣式 結束 */
-    </style>
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
 
+/* ===== 頁首與步驟指示 ===== */
+header { padding: 20px 0 8px; text-align: center; }
+h1 { font-size: 26px; margin: 0 0 12px; letter-spacing: 1px; }
+.steps { display: flex; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; font-size: 15px; color: var(--muted); }
+.steps li { padding: 4px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
+.steps li.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
+
+/* ===== 指導語 ===== */
+.guide {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-size: 18px;
+  text-align: center;
+}
+.guide strong { color: var(--brand); }
+.guide small { display: block; color: var(--muted); font-size: 15px; margin-top: 4px; }
+
+/* ===== 挑選：牌卡格子（手機兩欄） ===== */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 600px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 820px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font: inherit;
+  color: var(--text);
+  background: var(--tint);
+  border: 2px solid var(--tint);
+  border-top: 6px solid var(--color);
+  border-radius: 12px;
+  padding: 12px 8px 10px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .12s, background .12s;
+}
+.card:active { transform: scale(.97); }
+.card .title { display: block; font-size: 21px; font-weight: 700; color: var(--ink); }
+.card .kw { display: block; font-size: 14px; color: var(--muted); margin-top: 4px; line-height: 1.6; }
+.kw span { white-space: nowrap; } /* 關鍵字不從中間斷行 */
+.card.selected { background: var(--color); border-color: var(--color); }
+.card.selected .title, .card.selected .kw { color: var(--on); }
+.card .check {
+  position: absolute; top: 6px; right: 6px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: #fff; color: var(--ink);
+  font-size: 14px; font-weight: 700; line-height: 22px;
+  display: none;
+}
+.card.selected .check { display: block; }
+
+/* ===== 排名清單（排序與結果共用） ===== */
+.rank-list { list-style: none; margin: 0; padding: 0; }
+.rank-item {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%;
+  font: inherit; text-align: left; color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 8px solid var(--color);
+  border-radius: 12px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+button.rank-item { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.rank { flex: 0 0 30px; font-size: 20px; font-weight: 700; color: var(--muted); text-align: center; }
+.rank-item .body { flex: 1; min-width: 0; }
+.rank-item .title { font-size: 20px; font-weight: 700; color: var(--ink); }
+.rank-item .kw { font-size: 14px; color: var(--muted); }
+.rank-item .undo { font-size: 13px; color: var(--muted); white-space: nowrap; }
+
+/* 前三名：卡片較大、用牌卡淡色當底 */
+.rank-item.top { background: var(--tint); padding: 12px 10px; }
+.rank-item.top .rank { font-size: 24px; color: var(--ink); }
+.rank-item.top .title { font-size: 23px; }
+.rank-item.top .kw { font-size: 15px; }
+
+/* 還沒排的空格 */
+.slot {
+  display: flex; align-items: center; gap: 10px;
+  border: 2px dashed #cfccc4; border-radius: 12px;
+  padding: 10px; margin-bottom: 8px;
+  color: #a9a69e; font-size: 15px;
+}
+.slot.next { border-color: var(--brand); color: var(--brand); }
+
+/* 第 3、4 名之間與第 10、11 名之間的細線 */
+.divider { height: 0; border-top: 1px solid #b9b6ae; margin: 14px 4px 16px; }
+
+/* 待排的牌卡 */
+.pool-title { font-size: 16px; color: var(--muted); margin: 18px 0 8px; text-align: center; }
+.pool-title b { color: var(--brand); }
+
+/* ===== 結果 ===== */
+.result-meta { text-align: center; color: var(--muted); font-size: 16px; margin: 4px 0 14px; }
+.notice { text-align: center; color: var(--muted); font-size: 15px; margin: 12px 0; }
+
+/* ===== 說明頁 ===== */
+.intro { text-align: center; padding: 8px 0 4px; }
+.intro .desc { font-size: 18px; margin: 12px 0; }
+.intro .flow { font-size: 16px; color: var(--brand); font-weight: 600; margin: 12px 0; }
+.intro .note { font-size: 15px; color: var(--muted); margin: 12px 0 22px; }
+.intro .start-btn { display: block; width: 100%; margin: 0 0 10px; padding: 16px; font-size: 18px; }
+.more-list { margin-top: 10px; }
+.link-btn { font: inherit; font-size: 15px; color: var(--muted); background: none; border: none; text-decoration: underline; padding: 6px; cursor: pointer; }
+.result-mode { text-align: center; font-size: 17px; font-weight: 600; margin: 4px 0 0; }
+
+/* ===== 按鈕 ===== */
+.btn {
+  border: none; border-radius: 12px;
+  padding: 12px 18px;
+  font: inherit; font-size: 17px; font-weight: 600;
+  cursor: pointer;
+  background: var(--brand); color: #fff;
+}
+.btn:disabled { background: #b9c3cd; cursor: default; }
+.btn.ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0; }
+
+/* ===== 底部固定列（手機上隨時看得到已選張數） ===== */
+.bar {
+  position: sticky; bottom: 0;
+  margin: 16px -16px 0;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255,255,255,.96);
+  border-top: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px;
+}
+.bar .count { flex: 1; font-size: 15px; color: var(--muted); }
+.bar .count b { font-size: 20px; color: var(--text); }
+
+/* ===== 結果圖片視窗 ===== */
+.overlay {
+  position: fixed; inset: 0; z-index: 10;
+  background: rgba(0,0,0,.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.overlay .panel {
+  background: var(--surface); border-radius: var(--radius);
+  max-width: 480px; width: 100%; max-height: 90vh; overflow: auto;
+  padding: 16px; text-align: center;
+}
+.overlay img { width: 100%; border: 1px solid var(--line); border-radius: 8px; }
+
+/* ===== 頁尾 ===== */
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 24px 0 32px; line-height: 1.8; }
+footer a { color: var(--muted); }
+</style>
 </head>
 <body>
+
+<div class="wrap">
+  <header>
     <h1>我的十大價值觀探索</h1>
-    <h2 id="instruction">請選出你最有感覺的價值觀牌卡</h2>
-    <div class="card-container" id="cardContainer"></div>
-    <!-- 這裡是加上分隔線 -->
-    <div class="divider"></div>
-    <!-- 清除暫存資料按鈕 開始-->
-    <button class="button" id="clearStorageButton">清除已選牌卡</button>
-    <!-- 清除暫存資料按鈕 結束-->
-        <div id="selectedCountContainer">
-            <span id="selectedCount">已選擇 0 張</span>
-        </div>
-    <div class="selected-container" id="selectedContainer"></div>
-    <div class="button-container">
-        <button class="button" id="completeSelectionButton">完成選擇</button>
+    <ol class="steps" id="steps">
+      <li data-step="pick">1 挑選</li>
+      <li data-step="sort">2 排序</li>
+      <li data-step="result">3 結果</li>
+    </ol>
+  </header>
 
-    <!-- 沒選牌完成選擇顯示下方提示 開始-->
-<div id="noSelectionMessage" class="hidden">
-    您還沒選擇牌卡喔！
+  <main id="app"></main>
+
+  <!-- 版權宣告 -->
+  <footer>
+    本測驗依據Schwartz(1992)、Rokeach(1973)及Maslow(1943)的相關價值觀理論設計，<br>
+    並由 莊士勇 職涯諮詢師 依現代職場價值觀重新優化。<br>
+    &copy; 2025–2026 GCDF全球職涯發展師 莊士勇 設計<br>
+    <a href="classic.html">舊版（75 張牌卡）</a>
+  </footer>
 </div>
-    <!-- 沒選牌完成選擇顯示下方提示 結束-->
-        <button class="button hidden" id="restartButton">再測驗一次</button>
+
+<!-- 載入牌卡資料 -->
+<script src="value-cards.js"></script>
+
+<script>
+// ===== 作答進度 =====
+// 只暫存在使用者自己的瀏覽器（不會上傳），方便不小心重新整理時接著做；超過 24 小時自動作廢。
+const STORAGE_KEY = '10v-progress';
+const EXPIRE_MS = 24 * 60 * 60 * 1000;
+const SUGGESTED = 10;
+
+const cardById = {};
+valueCards.forEach(c => { cardById[c.id] = c; });
+
+// ===== 測驗設定：說明頁文字與指導語 =====
+const INTRO_DESC = '從 54 張價值觀探索卡中，<br>找出對你最重要的價值觀';
+const DEFAULT_MODE = 'now';
+const MODES = {
+  now:  { html: '請選出你<strong>當下</strong>的價值觀', text: '請選出你當下的價值觀', sub: '不是過去的你，也不是未來的你。' },
+  past: { html: '請選出你<strong>過去</strong>的價值觀', text: '請選出你過去的價值觀' },
+  seek: { html: '請選出你<strong>追求</strong>的價值觀', text: '請選出你追求的價值觀' }
+};
+const COMMON_SUB = '每個價值觀的意義，以你的定義為定義。';
+
+let state = loadState() || newState();
+
+function newState() {
+  return {
+    v: 3,
+    step: 'intro',
+    mode: DEFAULT_MODE, // 這次使用的指導語
+    deck: shuffle(allIds()), // 打散後的牌卡順序
+    selected: [],   // 已選的牌卡（依點選先後）
+    order: [],      // 排序後的牌卡
+    finishedAt: null,
+    savedAt: Date.now()
+  };
+}
+
+function allIds() {
+  return valueCards.map(c => c.id);
+}
+
+// 選好指導語後開始：重新打散牌卡
+function startRound(mode) {
+  state = newState();
+  state.mode = mode;
+  go('pick');
+}
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!s || Date.now() - s.savedAt > EXPIRE_MS) return null;
+    if (s.v !== 3 || !MODES[s.mode]) return null; // 舊版的暫存格式
+    if (!s.deck || s.deck.length !== valueCards.length) return null; // 牌卡資料有更新時重來
+    return s;
+  } catch (e) { return null; }
+}
+
+function saveState() {
+  state.savedAt = Date.now();
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+function clearState() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ===== 畫面切換 =====
+const app = document.getElementById('app');
+
+function go(step) {
+  state.step = step;
+  saveState();
+  render();
+  window.scrollTo(0, 0);
+}
+
+function render() {
+  document.getElementById('steps').hidden = state.step === 'intro';
+  document.querySelectorAll('#steps li').forEach(li => {
+    li.classList.toggle('on', li.dataset.step === state.step);
+  });
+  if (state.step === 'intro') renderIntro();
+  else if (state.step === 'pick') renderPick();
+  else if (state.step === 'sort') renderSort();
+  else renderResult();
+}
+
+// 牌卡顏色交給 CSS 變數，每張卡片自己的顏色
+// 黃色、橘色的標題用較深的同色系；黃色選取時用深色字，才看得清楚
+const COLOR_TUNING = {
+  '#ECBE2C': { on: '#3a2a00', ink: '#8A6A00' },
+  '#E8692A': { ink: '#C2501A' }
+};
+
+function inkOf(card) {
+  return (COLOR_TUNING[card.color] || {}).ink || card.color;
+}
+
+function colorStyle(card) {
+  const on = (COLOR_TUNING[card.color] || {}).on || '#fff';
+  return `--color:${card.color};--tint:${card.tint};--ink:${inkOf(card)};--on:${on}`;
+}
+
+function kwHtml(card) {
+  return card.keywords.map(k => `<span>${k}</span>`).join('・');
+}
+
+// ===== 說明頁：預設指導語一個大按鈕，其他指導語收起來 =====
+function renderIntro() {
+  const others = Object.keys(MODES).filter(m => m !== DEFAULT_MODE);
+  app.innerHTML = `
+    <div class="intro">
+      <p class="desc">${INTRO_DESC}</p>
+      <p class="flow">① 挑選 → ② 排序 → ③ 結果</p>
+      <p class="note">依照你的感覺選擇，沒有對錯<br>不需填寫個人資料，結果只存在你的手機</p>
+      <button type="button" class="btn start-btn" data-mode="${DEFAULT_MODE}">開始：${MODES[DEFAULT_MODE].text}</button>
+      <button type="button" class="link-btn" id="more">其他指導語 ▾</button>
+      <div class="more-list" id="moreList" hidden>
+        ${others.map(m => `<button type="button" class="btn ghost start-btn" data-mode="${m}">${MODES[m].text}</button>`).join('')}
+      </div>
+    </div>`;
+  app.querySelectorAll('.start-btn').forEach(btn => {
+    btn.onclick = () => startRound(btn.dataset.mode);
+  });
+  document.getElementById('more').onclick = () => {
+    const list = document.getElementById('moreList');
+    list.hidden = !list.hidden;
+  };
+}
+
+// ===== 第 1 步：挑選 =====
+function renderPick() {
+  const mode = MODES[state.mode];
+  app.innerHTML = `
+    <div class="guide">
+      ${mode.html}
+      <small>${mode.sub || ''}${COMMON_SUB}</small>
+      <small><button type="button" class="link-btn" id="toIntro">← 回說明頁</button></small>
     </div>
-    <!-- 這裡是版權宣告 -->
-<footer class="footer">
-本測驗依據Schwartz(1992)、Rokeach(1973)及Maslow(1943)的相關價值觀理論設計，<BR>並由 莊士勇 職涯諮詢師 依現代職場價值觀重新優化。<BR>&copy; 2025 GCDF全球職涯發展師 莊士勇 設計
-</footer>
+    <div class="grid" id="grid"></div>
+    <div class="bar">
+      <div class="count" id="count"></div>
+      <button class="btn" id="toSort">下一步：排序</button>
+    </div>`;
 
-<!-- 返回頂部浮動按鈕 -->
-<button class="scroll-to-top-btn" id="scrollToTopBtn"></button>
+  document.getElementById('toIntro').onclick = () => {
+    if (state.selected.length && !confirm('回說明頁會清除目前已選的牌卡，確定嗎？')) return;
+    clearState();
+    state = newState();
+    go('intro');
+  };
 
-    <script>
-        const values = [
-             "愛", "獨立", "歡笑", "進步", "樂趣", "友誼", "權力", "影響他人", "關係", "健康",
-            "成就", "學習", "憐憫心", "智力", "自尊", "興奮", "經濟自由", "傑出/卓越", "教導", "藝術",
-            "熱情", "自然", "傳統", "穩定", "社群", "舒適", "分享", "家人", "專業知識", "幸福",
-            "信任", "能力", "服務他人", "旅行", "安全感", "秩序", "喜悅", "領導", "聯繫", "有意義的工作",
-            "自我實現", "有效率", "獨處", "休閒活動", "幫助他人", "智慧", "成長", "時間", "創造改變", "選擇",
-            "信仰", "冒險", "誠實", "競爭力", "自由", "創新", "和平", "知識", "財務安全", "親密關係",
-            "仁慈", "正直", "被認同", "果決", "成功", "誠信", "創造力", "貢獻", "承擔風險", "平衡",
-            "歸屬感", "啟發", "社會貢獻", "包容", "自信" 
-        ];
+  const grid = document.getElementById('grid');
+  state.deck.forEach(id => {
+    const card = cardById[id];
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'card';
+    el.style.cssText = colorStyle(card);
+    el.innerHTML = `<span class="check">✓</span>
+      <span class="title">${card.title}</span>
+      <span class="kw">${kwHtml(card)}</span>`;
+    const sync = () => {
+      const on = state.selected.includes(id);
+      el.classList.toggle('selected', on);
+      el.setAttribute('aria-pressed', on);
+    };
+    el.onclick = () => {
+      if (state.selected.includes(id)) state.selected = state.selected.filter(x => x !== id);
+      else state.selected.push(id);
+      sync();
+      updateCount();
+      saveState();
+    };
+    sync();
+    grid.appendChild(el);
+  });
 
-        const cardContainer = document.getElementById('cardContainer');
-        const selectedContainer = document.getElementById('selectedContainer');
-        const completeSelectionButton = document.getElementById('completeSelectionButton');
-        const restartButton = document.getElementById('restartButton');
-        const selectedCount = document.getElementById('selectedCount');
-        const instruction = document.getElementById('instruction');
+  document.getElementById('toSort').onclick = () => {
+    const n = state.selected.length;
+    // 未滿 10 張只提醒、不阻擋
+    if (n < SUGGESTED && !confirm(`目前選了 ${n} 張（建議約 ${SUGGESTED} 張），確定要進入排序嗎？`)) return;
+    // 保留之前排好的名次（取消選的拿掉），其餘留空格
+    const kept = state.order.filter(id => id !== null && state.selected.includes(id));
+    state.order = kept.concat(Array(n - kept.length).fill(null));
+    go('sort');
+  };
+  updateCount();
+}
 
-        let finalSelection = [];
-        let sortedSelection = [];
-        let isCardSelected = false; // 用來追蹤是否已經選擇過卡片
+function updateCount() {
+  const n = state.selected.length;
+  const hint = n > SUGGESTED ? '已超過 10 張，也沒關係' : `建議約 ${SUGGESTED} 張`;
+  document.getElementById('count').innerHTML = `已選 <b>${n}</b> 張<br>${hint}`;
+  document.getElementById('toSort').disabled = n === 0;
+}
 
-        // 初始化頁面，從 localStorage 加載選擇
-        function loadPreviousSelections() {
-            const selectedCards = JSON.parse(localStorage.getItem('selectedCards'));
-            if (selectedCards && selectedCards.length > 0) {
-                finalSelection = selectedCards;
-                finalSelection.forEach(value => {
-                    const card = document.createElement('div');
-                    card.className = 'card selected-card';
-                    card.textContent = value;
-                    selectedContainer.appendChild(card);
-                });
-                updateSelectedCount();
-            }
-        }
+// ===== 排名清單（排序與結果共用） =====
+// 第 3、4 名之間與第 10、11 名之間放細線
+function needsDivider(i) {
+  return i === 3 || i === 10;
+}
 
+// 結果只列出有排序的牌卡（排到 10 張就完成時，沒排的不列入）
+function rankedIds() {
+  return state.order.filter(id => id !== null);
+}
 
-// 當點擊 "清除暫存資料" 按鈕時，清除 localStorage 並重新載入頁面
-document.getElementById('clearStorageButton').onclick = () => {
-    // 顯示確認提示框
-    const confirmClear = confirm("確定要清除已選牌卡嗎？這個操作無法復原。");
-    if (confirmClear) {
-        localStorage.clear(); // 清除 localStorage 中的所有資料
-        location.reload(); // 重新載入頁面
+function rankRow(card, i, tag) {
+  const el = document.createElement(tag);
+  el.className = 'rank-item' + (i < 3 ? ' top' : '');
+  el.style.cssText = colorStyle(card);
+  el.innerHTML = `<span class="rank">${i + 1}</span>
+    <div class="body"><div class="title">${card.title}</div><div class="kw">${kwHtml(card)}</div></div>`;
+  return el;
+}
+
+function addDivider(list) {
+  const li = document.createElement('li');
+  li.className = 'divider';
+  li.setAttribute('aria-hidden', 'true');
+  list.appendChild(li);
+}
+
+// ===== 第 2 步：排序（依序點選） =====
+function renderSort() {
+  app.innerHTML = `
+    <div class="guide">
+      從最重要的開始，<strong>依序點選</strong>你的牌卡
+      <small>點錯了沒關係，點排好的牌卡就會退回。</small>
+    </div>
+    <ol class="rank-list" id="list"></ol>
+    <div class="pool-title" id="poolTitle"></div>
+    <div class="grid" id="pool"></div>
+    <div class="bar">
+      <button class="btn ghost" id="back">← 回上一步</button>
+      <div class="count" id="sortCount"></div>
+      <button class="btn" id="done">完成排序</button>
+    </div>`;
+
+  document.getElementById('back').onclick = () => go('pick');
+  document.getElementById('done').onclick = () => {
+    state.finishedAt = Date.now();
+    go('result');
+  };
+  renderSortBody();
+}
+
+function renderSortBody() {
+  const next = state.order.indexOf(null);   // 下一個要填的名次（-1 表示都排好了）
+  const unranked = state.selected.filter(id => !state.order.includes(id));
+  let lastFilled = -1;
+  state.order.forEach((id, i) => { if (id !== null) lastFilled = i; });
+
+  // 記下待排區的位置，重畫後捲回同一個位置，讓手指下面的牌卡不會跳走
+  const poolTitle = document.getElementById('poolTitle');
+  const anchorBefore = poolTitle.getBoundingClientRect().top;
+  const firstRender = !poolTitle.innerHTML;
+
+  // 下方：還沒排的牌卡
+  if (next === -1) poolTitle.innerHTML = '全部排好了，可以按「完成排序」';
+  else if (next >= SUGGESTED) poolTitle.innerHTML = `已排好 ${next} 張，可以按「完成排序」<br>也可以繼續點選，放進第 <b>${next + 1}</b> 名`;
+  else poolTitle.innerHTML = `點一下，放進第 <b>${next + 1}</b> 名`;
+  const pool = document.getElementById('pool');
+  pool.innerHTML = '';
+  unranked.forEach(id => {
+    const card = cardById[id];
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'card';
+    el.style.cssText = colorStyle(card);
+    el.innerHTML = `<span class="title">${card.title}</span><span class="kw">${kwHtml(card)}</span>`;
+    el.onclick = () => {
+      state.order[state.order.indexOf(null)] = id;
+      saveState();
+      renderSortBody();
+    };
+    pool.appendChild(el);
+  });
+
+  // 上方：排名清單。只顯示排好的、中間退回的空格，以及下一個要放的位置
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  state.order.forEach((id, i) => {
+    if (id === null && i > lastFilled && i !== next) return;
+    if (needsDivider(i)) addDivider(list);
+    if (id === null) {
+      const li = document.createElement('li');
+      li.className = 'slot' + (i === next ? ' next' : '');
+      li.innerHTML = `<span class="rank">${i + 1}</span>${i === next ? '下一張放這裡' : ''}`;
+      list.appendChild(li);
+      return;
     }
-};
-//清除暫存資料 按鈕設置結束
+    const li = document.createElement('li');
+    const row = rankRow(cardById[id], i, 'button');
+    row.type = 'button';
+    row.insertAdjacentHTML('beforeend', '<span class="undo">退回</span>');
+    row.onclick = () => {
+      state.order[i] = null;
+      saveState();
+      renderSortBody();
+    };
+    li.appendChild(row);
+    list.appendChild(li);
+  });
 
-        // 初始化牌卡
-        function initCards() {
-            cardContainer.innerHTML = '';
-            values.sort(() => Math.random() - 0.5); // 隨機排列
-            values.forEach(value => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.textContent = value;
-                card.onclick = () => selectCard(card);
-                cardContainer.appendChild(card);
-            });
-            loadPreviousSelections(); // 載入之前選擇的卡片
-        }
+  const done = state.order.length - unranked.length;
+  document.getElementById('sortCount').innerHTML = `已排 <b>${done}</b> / ${state.order.length}`;
+  // 全部排完，或前 10 名都排好了，就可以完成
+  document.getElementById('done').disabled = next !== -1 && next < SUGGESTED;
 
-        // 選擇牌卡
-        function selectCard(card) {
-            card.classList.add('selected-card');
-            selectedContainer.appendChild(card);
-            card.onclick = () => deselectCard(card);
-            updateSelectedCount();
-            isCardSelected = true; // 標記已選擇過卡片
+  if (!firstRender) window.scrollBy(0, poolTitle.getBoundingClientRect().top - anchorBefore);
+}
 
-        // 恢復上方原指示文字
-            instruction.textContent = '請選出你最有感覺的價值觀牌卡'; 
-            instruction.style.color = ''; // 恢復原顏色
+// ===== 第 3 步：結果 =====
+function formatTime(ts) {
+  const d = new Date(ts);
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
 
-        // 隱藏下方提示訊息
-        document.getElementById('noSelectionMessage').classList.add('hidden');
-        }
+function renderResult() {
+  app.innerHTML = `
+    <div class="result-mode">指導語：${MODES[state.mode].text}</div>
+    <div class="result-meta">完成時間：${formatTime(state.finishedAt)}・共 ${rankedIds().length} 張</div>
+    <ol class="rank-list" id="list"></ol>
+    <div class="btn-row">
+      <button class="btn" id="save">下載結果圖片</button>
+    </div>
+    <div class="notice"><strong>請下載結果圖片或截圖本頁面，<br>請莊老師為您解讀喔</strong></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="back">← 修改排序</button>
+      <button class="btn ghost" id="restart">重新開始</button>
+    </div>`;
 
-        // 取消選擇牌卡
-        function deselectCard(card) {
-            card.classList.remove('selected-card');
-            cardContainer.appendChild(card);
-            card.onclick = () => selectCard(card);
-            updateSelectedCount();
-        }
+  const list = document.getElementById('list');
+  rankedIds().forEach((id, i) => {
+    if (needsDivider(i)) addDivider(list);
+    list.appendChild(rankRow(cardById[id], i, 'li'));
+  });
 
-        // 更新已選擇牌卡數量
-        function updateSelectedCount() {
-            const count = selectedContainer.children.length;
-            selectedCount.textContent = `已選擇 ${count} 張`;
-            const selectedCards = Array.from(selectedContainer.children).map(card => card.textContent);
-            localStorage.setItem('selectedCards', JSON.stringify(selectedCards)); // 儲存選擇
-        }
+  document.getElementById('save').onclick = showImage;
+  document.getElementById('back').onclick = () => go('sort');
+  document.getElementById('restart').onclick = () => {
+    if (!confirm('確定要重新開始嗎？目前的選牌結果會被清除。')) return;
+    clearState();
+    state = newState();
+    go('intro');
+  };
+}
 
-        // 完成選擇
-        completeSelectionButton.onclick = () => {
-            if (selectedContainer.children.length === 0) {
-                // 沒有選擇牌卡時顯示提示
-                instruction.textContent = '您還沒選擇牌卡喔！';
-                instruction.style.color = 'red';
-        // 顯示下方的提示訊息
-        document.getElementById('noSelectionMessage').classList.remove('hidden');
-            } else {
-                finalSelection = Array.from(selectedContainer.children).map(card => card.textContent);
-                showFinalSelection();
-            }
-        };
+// ===== 產生結果圖片（在手機上畫，不經過網路） =====
+function drawResultImage() {
+  const W = 1080, PAD = 60, ROW = 128, TOP_ROW = 156, GAP = 16, DIV = 44, HEAD = 280, FOOT = 120;
+  const ids = rankedIds();
+  const n = ids.length;
+  let H = HEAD + FOOT;
+  ids.forEach((id, i) => {
+    H += (i < 3 ? TOP_ROW : ROW) + GAP + (needsDivider(i) ? DIV : 0);
+  });
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  const font = (size, weight) => `${weight || 400} ${size}px ${getComputedStyle(document.body).fontFamily}`;
 
-        // 顯示最終選擇的牌卡
-        function showFinalSelection() {
-            document.body.innerHTML = `
-                <h1>我的十大價值觀探索</h1>
-                <h2>請點選排序你的價值觀牌卡</h2>
-                <div class="selected-container" id="finalSelectedContainer"></div>
-                <div class="divider"></div>
-                    <div id="sortedCountContainer">
-                        <span id="sortedCount">已排序 0 張</span>
-                    </div>
-                <div class="selected-container" id="sortedContainer"></div>
-                <div class="button-container">
-                    <button class="button" id="finalCompleteButton">完成排序</button>
-                    <button class="button hidden" id="restartButton">再測驗一次</button>
-                </div>
-    <!-- 這裡是版權宣告 -->
-<footer class="footer">
-本測驗依據Schwartz(1992)、Rokeach(1973)及Maslow(1943)的相關價值觀理論設計，<BR>並由 莊士勇 職涯諮詢師 依現代職場價值觀重新優化。<BR>&copy; 2025 GCDF全球職涯發展師 莊士勇 設計
-</footer>
-            `;
-            const finalSelectedContainer = document.getElementById('finalSelectedContainer');
-            finalSelection.forEach(value => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.textContent = value;
-                card.onclick = () => selectFinalCard(card);
-                finalSelectedContainer.appendChild(card);
-            });
+  ctx.fillStyle = '#f6f5f2';
+  ctx.fillRect(0, 0, W, H);
 
-            document.getElementById('finalCompleteButton').onclick = showFinalSortedSelection;
-        }
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#2b2b2b';
+  ctx.font = font(56, 700);
+  ctx.fillText(document.title, W / 2, 100);
+  ctx.font = font(38, 700);
+  ctx.fillText(`指導語：${MODES[state.mode].text}`, W / 2, 170);
+  ctx.fillStyle = '#6b6b6b';
+  ctx.font = font(30);
+  ctx.fillText(`完成時間：${formatTime(state.finishedAt)}・共 ${n} 張`, W / 2, 225);
 
-        // 選擇最終排序的牌卡
-        function selectFinalCard(card) {
-            const sortedContainer = document.getElementById('sortedContainer');
-            card.classList.add('selected-card');
-            sortedContainer.appendChild(card);
-            card.onclick = () => deselectFinalCard(card);
-            updateSortedCount();
-        }
-
-        // 取消選擇最終排序的牌卡
-        function deselectFinalCard(card) {
-            const finalSelectedContainer = document.getElementById('finalSelectedContainer');
-            card.classList.remove('selected-card');
-            finalSelectedContainer.appendChild(card);
-            card.onclick = () => selectFinalCard(card);
-            updateSortedCount();
-        }
-
-        // 更新已排序牌卡數量
-        function updateSortedCount() {
-            const sortedContainer = document.getElementById('sortedContainer');
-            const count = sortedContainer.children.length;
-            sortedContainer.querySelectorAll('.card').forEach((card, index) => {
-                card.textContent = `${index + 1}. ${card.textContent.split('. ')[1] || card.textContent}`;
-            });
-            document.getElementById('sortedCount').textContent = `已排序 ${count} 張`;
-        }
-
-        // 顯示最終排序的牌卡
-        function showFinalSortedSelection() {
-            const sortedContainer = document.getElementById('sortedContainer');
-
-    // 取得當前日期和時間
-    const today = new Date();
-    const dateString = today.toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
-
-// 取得時間部分，並格式化為 24 小時制
-let hours = today.getHours().toString().padStart(2, '0');
-let minutes = today.getMinutes().toString().padStart(2, '0');
-let seconds = today.getSeconds().toString().padStart(2, '0');
-
-const timeString = `${hours}:${minutes}:${seconds}`;
-
-            document.body.innerHTML = `
-                <h1>我的十大價值觀探索</h1>
-                <h2>你的價值觀排序結果</h2>
-                <div class="selected-container" id="finalSortedContainer"></div>
-
-<!-- 顯示日期和時間 開始-->
-    <div>完成時間：${dateString} ${timeString}</div>
-<!-- 顯示日期和時間 結束-->
-
-                <div class="button-container">
-                    <button class="button" id="restartButton">再測驗一次</button>
-                </div>
-
-
-    <!-- 這裡是版權宣告 開始-->
-<footer class="footer">
-                <h3>請截圖本頁面，請莊老師為您解讀喔</h3>
-本測驗依據Schwartz(1992)、Rokeach(1973)及Maslow(1943)的相關價值觀理論設計，<BR>並由 莊士勇 職涯諮詢師 依現代職場價值觀重新優化。<BR>&copy; 2025 GCDF全球職涯發展師 莊士勇 設計
-</footer>
-    <!-- 這裡是版權宣告 結束-->
-            `;
-            const finalSortedContainer = document.getElementById('finalSortedContainer');
-            Array.from(sortedContainer.children).forEach(card => {
-                const sortedCard = document.createElement('div');
-                sortedCard.className = 'card';
-                sortedCard.textContent = card.textContent;
-                finalSortedContainer.appendChild(sortedCard);
-            });
-
-            // 設定 "再測驗一次" 按鈕
-            document.getElementById('restartButton').onclick = () => {
-                localStorage.clear(); // 清空 localStorage
-                location.reload(); // 重新載入頁面
-            };
-        }
-
-        // 初始化頁面
-        initCards();
-
-// 監聽滾動事件來顯示或隱藏返回頂部按鈕
-window.onscroll = function () {
-    let scrollBtn = document.getElementById("scrollToTopBtn");
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollBtn.style.display = "block"; // 顯示按鈕
-    } else {
-        scrollBtn.style.display = "none"; // 隱藏按鈕
+  let y = HEAD;
+  ids.forEach((id, i) => {
+    const card = cardById[id];
+    const top = i < 3;
+    const h = top ? TOP_ROW : ROW;
+    // 細線
+    if (needsDivider(i)) {
+      ctx.fillStyle = '#b9b6ae';
+      ctx.fillRect(PAD + 8, y + DIV / 2 - 8, W - PAD * 2 - 16, 2);
+      y += DIV;
     }
-};
+    // 卡片底：前三名用牌卡淡色
+    ctx.fillStyle = top ? card.tint : '#ffffff';
+    roundRect(ctx, PAD, y, W - PAD * 2, h, 20);
+    ctx.fill();
+    // 左側色條
+    ctx.save();
+    roundRect(ctx, PAD, y, W - PAD * 2, h, 20);
+    ctx.clip();
+    ctx.fillStyle = card.color;
+    ctx.fillRect(PAD, y, 16, h);
+    ctx.restore();
+    // 名次
+    ctx.textAlign = 'center';
+    ctx.fillStyle = top ? inkOf(card) : '#6b6b6b';
+    ctx.font = font(top ? 54 : 44, 700);
+    ctx.fillText(String(i + 1), PAD + 70, y + h / 2 + (top ? 19 : 16));
+    // 標題與關鍵字
+    ctx.textAlign = 'left';
+    ctx.fillStyle = inkOf(card);
+    ctx.font = font(top ? 56 : 46, 700);
+    ctx.fillText(card.title, PAD + 130, y + (top ? 70 : 58));
+    ctx.fillStyle = '#6b6b6b';
+    ctx.font = font(top ? 32 : 28);
+    ctx.fillText(card.keywords.join('・'), PAD + 130, y + (top ? 122 : 102));
+    y += h + GAP;
+  });
 
-// 監聽按鈕點擊事件，滾動頁面回到頂部
-document.getElementById("scrollToTopBtn").onclick = function () {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth" // 平滑滾動回到頁面頂部
-    });
-};
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#6b6b6b';
+  ctx.font = font(26);
+  ctx.fillText('© 2025–2026 GCDF全球職涯發展師 莊士勇 設計', W / 2, H - 70);
+  ctx.fillText('shihyungchuang.github.io/10v', W / 2, H - 30);
+  return canvas;
+}
 
-    </script>
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
 
+function showImage() {
+  const url = drawResultImage().toDataURL('image/png');
+  const d = new Date(state.finishedAt);
+  const name = `我的十大價值觀_${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}.png`;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  overlay.innerHTML = `
+    <div class="panel">
+      <img src="${url}" alt="我的十大價值觀排序結果">
+      <p class="notice">手機請<strong>長按圖片</strong>儲存到相簿</p>
+      <div class="btn-row">
+        <a class="btn" href="${url}" download="${name}" style="text-decoration:none">下載圖片</a>
+        <button class="btn ghost" id="closeImg">關閉</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#closeImg').onclick = () => overlay.remove();
+  overlay.onclick = e => { if (e.target === overlay) overlay.remove(); };
+}
+
+render();
+</script>
 </body>
 </html>
