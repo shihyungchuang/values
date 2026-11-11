@@ -168,6 +168,14 @@ button.rank-item { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 }
 .btn:disabled { background: #b9c3cd; cursor: default; }
 .btn.ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); }
+.copy-status { text-align: center; color: var(--accent-dark, #0F6E56); font-weight: 700; min-height: 1.5em; margin: -6px 0 0; }
+.copy-box { width: 100%; height: 50vh; font: inherit; font-size: 15px; border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+.line-row { text-align: center; margin: 4px 0 0; }
+.line-link {
+  display: inline-block; text-decoration: none;
+  font-size: 15px; font-weight: 700; color: #06A048; background: var(--surface);
+  border: 1.5px solid #06C755; border-radius: 999px; padding: 6px 16px;
+}
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px 0; }
 
 /* ===== 底部固定列（手機上隨時看得到已選張數） ===== */
@@ -560,8 +568,11 @@ function renderResult() {
     <ol class="rank-list" id="list"></ol>
     <div class="btn-row">
       <button class="btn" id="save">下載結果圖片</button>
+      <button class="btn ghost" id="copy">複製文字</button>
     </div>
+    <p class="copy-status" id="copyStatus" aria-live="polite"></p>
     <div class="notice"><strong>請下載結果圖片或截圖本頁面，<br>請 Steven 莊老師為您解讀喔</strong></div>
+    <p class="line-row"><a class="line-link" href="${LINE_URL}" target="_blank" rel="noopener">加入 Steven 莊老師的官方 LINE</a></p>
     <div class="btn-row">
       <button class="btn ghost" id="back">← 修改排序</button>
       <button class="btn ghost" id="restart">重新開始</button>
@@ -574,6 +585,7 @@ function renderResult() {
   });
 
   document.getElementById('save').onclick = showImage;
+  document.getElementById('copy').onclick = () => copyText(resultText());
   document.getElementById('back').onclick = () => go('sort');
   document.getElementById('restart').onclick = () => {
     if (!confirm('確定要重新開始嗎？目前的選牌結果會被清除。')) return;
@@ -665,6 +677,66 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.arcTo(x, y + h, x, y, r);
   ctx.arcTo(x, y, x + w, y, r);
   ctx.closePath();
+}
+
+// ===== 複製文字（貼到記事本、LINE、Email；只複製到使用者自己的手機） =====
+const LINE_URL = 'https://line.me/R/ti/p/@232biwoo'; // Steven 莊老師的官方 LINE
+const SIGNATURE = '© 2025–2026 GCDF全球職涯發展師 莊士勇 Steven 設計';
+
+function copyText(text) {
+  const status = document.getElementById('copyStatus');
+  const done = () => { status.textContent = '已複製！可以貼到記事本、LINE 或 Email'; };
+  // 先用新的複製方式，不支援時改用舊方式；都不行就顯示文字讓使用者自己選取
+  const fallback = () => {
+    const box = document.createElement('textarea');
+    box.value = text;
+    box.setAttribute('readonly', '');
+    box.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(box);
+    box.select();
+    box.setSelectionRange(0, text.length);
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    box.remove();
+    if (ok) done();
+    else showTextToCopy(text);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else {
+    fallback();
+  }
+}
+
+function showTextToCopy(text) {
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  overlay.innerHTML = `
+    <div class="panel">
+      <p class="notice">請<strong>長按下方文字</strong>，選擇「全選」後複製</p>
+      <textarea class="copy-box" readonly></textarea>
+      <div class="btn-row"><button class="btn ghost" id="closeCopy">關閉</button></div>
+    </div>`;
+  overlay.querySelector('textarea').value = text;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#closeCopy').onclick = () => overlay.remove();
+}
+
+function resultText() {
+  const ids = rankedIds();
+  const lines = [
+    `【${document.title}】`,
+    `指導語：${MODES[state.mode].text}`,
+    `完成時間：${formatTime(state.finishedAt)}・共 ${ids.length} 張`,
+    ''
+  ];
+  ids.forEach((id, i) => {
+    if (needsDivider(i)) lines.push('');
+    const card = cardById[id];
+    lines.push(`${i + 1}. ${card.title}（${card.keywords.join('・')}）`);
+  });
+  lines.push('', location.origin + location.pathname, SIGNATURE);
+  return lines.join('\n');
 }
 
 function showImage() {
